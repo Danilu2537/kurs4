@@ -1,3 +1,5 @@
+import hashlib
+
 from project.dao.user import UserDAO
 
 
@@ -28,7 +30,8 @@ class UserService:
         if "email" in user_d:
             user.email = user_d.get("email")
         if "password" in user_d:
-            user.password = user_d.get("password")
+            password = user_d.get("password")
+            user.password = hashlib.sha256(password.encode()).hexdigest()
         if "name" in user_d:
             user.name = user_d.get("name")
         if "surname" in user_d:
