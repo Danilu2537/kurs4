@@ -1,29 +1,50 @@
-from flask_restx import Namespace, Resource
+from flask import request
+from flask_cors import cross_origin
+from flask_restx import Resource, Namespace
 
-from project.container import genre_service
-from project.setup.api.models import genre
-from project.setup.api.parsers import page_parser
+from project.dao.model.genre import GenreSchema
+from project.implemented import genre_service
 
-api = Namespace('genres')
+genre_ns = Namespace('genres')
 
 
-@api.route('/')
+@genre_ns.route('/')
 class GenresView(Resource):
-    @api.expect(page_parser)
-    @api.marshal_with(genre, as_list=True, code=200, description='OK')
+    @cross_origin()
     def get(self):
-        """
-        Get all genres.
-        """
-        return genre_service.get_all(**page_parser.parse_args())
+        """Метод с пагинацией по 12 записей на page"""
+        page = request.args.get('page')
+        if page:
+            page = int(page)
+        genres = genre_service.get_all(page)
+        return GenreSchema(many=True).dump(genres), 200
+
+    def post(self):
+        req_json = request.json
+        ent = genre_service.create(req_json)
+        return "", 201, {"location": f"/genres/{ent.id}"}
 
 
-@api.route('/<int:genre_id>/')
+@genre_ns.route('/<int:bid>/')
 class GenreView(Resource):
-    @api.response(404, 'Not Found')
-    @api.marshal_with(genre, code=200, description='OK')
-    def get(self, genre_id: int):
-        """
-        Get genre by id.
-        """
-        return genre_service.get_item(genre_id)
+    @cross_origin()
+
+    def get(self, bid):
+        genre = genre_service.get_one(bid)
+        return GenreSchema().dump(genre), 200
+
+    def put(self, bid):
+        req_json = request.json
+        req_json["id"] = bid
+        genre_service.update(req_json)
+        return "", 204
+
+    def patch(self, bid):
+        req_json = request.json
+        req_json["id"] = bid
+        genre_service.partially_update(req_json)
+        return "", 204
+
+    def delete(self, bid):
+        genre_service.delete(bid)
+        return "", 204
