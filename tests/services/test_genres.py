@@ -2,9 +2,9 @@ from unittest.mock import patch
 
 import pytest
 
+from project.dao.genre import Genre
 from project.exceptions import ItemNotFound
-from project.models import Genre
-from project.services import GenresService
+from project.services.genre import GenreService
 
 
 class TestGenresService:
@@ -21,7 +21,7 @@ class TestGenresService:
 
     @pytest.fixture()
     def genres_service(self, genres_dao_mock):
-        return GenresService(dao=genres_dao_mock)
+        return GenreService(dao=genres_dao_mock)
 
     @pytest.fixture
     def genre(self, db):

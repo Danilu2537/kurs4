@@ -1,13 +1,13 @@
 import pytest
 
-from project.dao import GenresDAO
-from project.models import Genre
+from project.dao.genre import GenreDAO
+from project.dao.model.genre import Genre
 
 
 class TestGenresDAO:
     @pytest.fixture
     def genres_dao(self, db):
-        return GenresDAO(db.session)
+        return GenreDAO(db.session)
 
     @pytest.fixture
     def genre_1(self, db):
