@@ -1,7 +1,6 @@
 from project.dao import GenresDAO
-
 from project.services import GenresService
-from project.setup.db import db
+from project.setup_db import db
 
 # DAO
 genre_dao = GenresDAO(db.session)

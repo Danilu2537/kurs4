@@ -8,7 +8,6 @@ from project.services import GenresService
 
 
 class TestGenresService:
-
     @pytest.fixture()
     @patch('project.dao.GenresDAO')
     def genres_dao_mock(self, dao_mock):
@@ -26,7 +25,7 @@ class TestGenresService:
 
     @pytest.fixture
     def genre(self, db):
-        obj = Genre(name="genre")
+        obj = Genre(name='genre')
         db.session.add(obj)
         db.session.commit()
         return obj

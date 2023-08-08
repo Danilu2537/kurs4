@@ -1,17 +1,11 @@
-from project.config import config
-from project.dao.model.genre import Genre
-from project.dao.model.director import Director
-from project.dao.model.movie import Movie
-from project.dao.model.user import User
-
-
-
-
-
-
 from flask import Flask, jsonify
 from flask_cors import CORS
 
+from project.config import config
+from project.dao.model.director import Director
+from project.dao.model.genre import Genre
+from project.dao.model.movie import Movie
+from project.dao.model.user import User
 from project.exceptions import BaseServiceError
 from project.setup.api import api
 from project.setup_db import db
@@ -29,12 +23,12 @@ def base_service_error_handler(exception: BaseServiceError):
 def create_app(config_obj):
     app = Flask(__name__)
     app.config.from_object(config_obj)
+    cors = CORS(app=app)
 
     db.init_app(app)
     api.init_app(app)
-    cors = CORS(app=app)
+    cors.init_app(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
-
 
     # Регистрация эндпоинтов
     api.add_namespace(auth_ns)
@@ -46,13 +40,17 @@ def create_app(config_obj):
     app.register_error_handler(BaseServiceError, base_service_error_handler)
 
     return app
+
+
 app = create_app(config)
+
+
 @app.shell_context_processor
 def shell():
     return {
-        "db": db,
-        "Genre": Genre,
-        "Director": Director,
-        "Movie": Movie,
-        "User": User
+        'db': db,
+        'Genre': Genre,
+        'Director': Director,
+        'Movie': Movie,
+        'User': User,
     }

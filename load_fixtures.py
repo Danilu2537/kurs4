@@ -1,17 +1,15 @@
 from contextlib import suppress
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List
 
 from sqlalchemy.exc import IntegrityError
 
 from project.config import config
-from project.dao.model.genre import Genre
 from project.dao.model.director import Director
+from project.dao.model.genre import Genre
 from project.dao.model.movie import Movie
-from project.dao.model.user import User
-
-from run import create_app
 from project.setup_db import db
 from project.utils import read_json
+from run import create_app
 
 
 def load_data(data: List[Dict[str, Any]], model) -> None:
@@ -21,7 +19,7 @@ def load_data(data: List[Dict[str, Any]], model) -> None:
 
 
 if __name__ == '__main__':
-    fixtures: Dict[str, List[Dict[str, Any]]] = read_json("fixtures.json")
+    fixtures: Dict[str, List[Dict[str, Any]]] = read_json('fixtures.json')
 
     app = create_app(config)
 

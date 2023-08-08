@@ -16,7 +16,11 @@ class MovieDAO:
 
     def get_new(self, page):
         if page:
-            return self.session.query(Movie).order_by(Movie.year.desc()).paginate(page=page, per_page=12)
+            return (
+                self.session.query(Movie)
+                .order_by(Movie.year.desc())
+                .paginate(page=page, per_page=12)
+            )
         else:
             return self.session.query(Movie).order_by(Movie.year.desc()).all()
 
@@ -32,14 +36,14 @@ class MovieDAO:
         self.session.commit()
 
     def update(self, movie_d):
-        movie = self.get_one(movie_d.get("id"))
-        movie.title = movie_d.get("title")
-        movie.description = movie_d.get("description")
-        movie.trailer = movie_d.get("trailer")
-        movie.year = movie_d.get("year")
-        movie.rating = movie_d.get("rating")
-        movie.genre_id = movie_d.get("genre_id")
-        movie.director_id = movie_d.get("director_id")
+        movie = self.get_one(movie_d.get('id'))
+        movie.title = movie_d.get('title')
+        movie.description = movie_d.get('description')
+        movie.trailer = movie_d.get('trailer')
+        movie.year = movie_d.get('year')
+        movie.rating = movie_d.get('rating')
+        movie.genre_id = movie_d.get('genre_id')
+        movie.director_id = movie_d.get('director_id')
 
         self.session.add(movie)
         self.session.commit()

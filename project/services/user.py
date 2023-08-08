@@ -26,18 +26,18 @@ class UserService:
         return self.dao.get_by_email(email)
 
     def partially_update(self, user_d):
-        user = self.get_one(user_d["id"])
-        if "email" in user_d:
-            user.email = user_d.get("email")
-        if "password" in user_d:
-            password = user_d.get("password")
+        user = self.get_one(user_d['id'])
+        if 'email' in user_d:
+            user.email = user_d.get('email')
+        if 'password' in user_d:
+            password = user_d.get('password')
             user.password = hashlib.sha256(password.encode()).hexdigest()
-        if "name" in user_d:
-            user.name = user_d.get("name")
-        if "surname" in user_d:
-            user.surname = user_d.get("surname")
-        if "favourite_genre" in user_d:
-            user.favourite_genre = user_d.get("favourite_genre")
+        if 'name' in user_d:
+            user.name = user_d.get('name')
+        if 'surname' in user_d:
+            user.surname = user_d.get('surname')
+        if 'favourite_genre' in user_d:
+            user.favourite_genre = user_d.get('favourite_genre')
         self.dao.update(user)
 
     def delete(self, uid):

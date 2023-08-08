@@ -18,9 +18,9 @@ class GenreService:
         return self.dao.update(genre_d)
 
     def partially_update(self, genre_d):
-        genre = self.get_one(genre_d["id"])
-        if "name" in genre_d:
-            genre.name = genre_d.get("name")
+        genre = self.get_one(genre_d['id'])
+        if 'name' in genre_d:
+            genre.name = genre_d.get('name')
         self.dao.update(genre)
 
     def delete(self, rid):

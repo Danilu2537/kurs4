@@ -11,7 +11,7 @@ class Register(Resource):
     def post(self):
         req_json = request.json
         auth_service.register(req_json)
-        return "", 201
+        return '', 201
 
 
 @auth_ns.route('/login/')
@@ -20,13 +20,13 @@ class Login(Resource):
         email = request.json.get('email')
         password = request.json.get('password')
         if None in (email, password):
-            return "Required params: email, password", 400
+            return 'Required params: email, password', 400
         req_json = request.json
         tokens = auth_service.login(req_json)
         if tokens:
             return tokens, 200
         else:
-            return "Incorrect password or email", 401
+            return 'Incorrect password or email', 401
 
     def put(self):
         req_json = request.json
@@ -34,4 +34,4 @@ class Login(Resource):
         if tokens:
             return tokens, 200
         else:
-            return "", 401
+            return '', 401

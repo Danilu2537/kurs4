@@ -1,10 +1,10 @@
 from marshmallow import Schema, fields
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from project.dao.model import model
-from project.dao.model.director import DirectorSchema, Director
-from project.dao.model.genre import GenreSchema, Genre
+from project.dao.model.director import Director, DirectorSchema
+from project.dao.model.genre import Genre, GenreSchema
 
 
 class Movie(model.Base):
@@ -21,8 +21,6 @@ class Movie(model.Base):
     director = relationship('Director')
 
 
-
-
 class MovieSchema(Schema):
     id = fields.Int()
     title = fields.Str()
@@ -34,4 +32,3 @@ class MovieSchema(Schema):
     director_id = fields.Int()
     genre = fields.Nested(GenreSchema)
     director = fields.Nested(DirectorSchema)
-

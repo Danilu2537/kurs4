@@ -1,6 +1,6 @@
 from flask import request
 from flask_cors import cross_origin
-from flask_restx import Resource, Namespace
+from flask_restx import Namespace, Resource
 
 from project.dao.model.movie import MovieSchema
 from project.implemented import movie_service
@@ -27,7 +27,7 @@ class MoviesView(Resource):
     def post(self):
         req_json = request.json
         ent = movie_service.create(req_json)
-        return "", 201, {"location": f"/movies/{ent.id}"}
+        return '', 201, {'location': f'/movies/{ent.id}'}
 
 
 @movie_ns.route('/<int:bid>/')
@@ -39,16 +39,16 @@ class MovieView(Resource):
 
     def put(self, bid):
         req_json = request.json
-        req_json["id"] = bid
+        req_json['id'] = bid
         movie_service.update(req_json)
-        return "", 204
+        return '', 204
 
     def patch(self, bid):
         req_json = request.json
-        req_json["id"] = bid
+        req_json['id'] = bid
         movie_service.partially_update(req_json)
-        return "", 204
+        return '', 204
 
     def delete(self, bid):
         movie_service.delete(bid)
-        return "", 204
+        return '', 204
